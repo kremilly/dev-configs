@@ -37,6 +37,9 @@ Plug 'sheerun/vim-polyglot'
 " neoterm para usar o terminal
 Plug 'kassio/neoterm'
 
+" Exemplo de configuração básica do vim-quickrun
+Plug 'thinca/vim-quickrun'
+
 " Finaliza a lista de plugins
 call plug#end()
 
@@ -63,3 +66,6 @@ let g:NERDTreeShowDrives = 1
 " Atalho para abrir o terminal horizontalmente na parte inferior
 nnoremap <F12> :below :Ttoggle<CR>
 nnoremap <F3> :wincmd _<CR>
+
+" Configurar um atalho de teclado para executar o código
+nmap <F5> <Plug>(quickrun)

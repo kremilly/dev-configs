@@ -17,5 +17,8 @@ My Neovim configs file
 * vim-test/vim-test
 * sheerun/vim-polyglot
 * kassio/neoterm
+* thinca/vim-quickrun
+
+To install all plugins, open `nvim` and type `:PlugInstall`
 
 > ***Under construction***
