@@ -1,8 +1,8 @@
-# nvim-configs
+# Neovim Configs
 
 My Neovim configs file
 
-### My Plugins
+### Neovim Plugins installed
 
 * preservim/nerdtree
 * vim-airline/vim-airline
