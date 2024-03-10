@@ -1,7 +1,7 @@
 # Function to check if Node.js is already installed
 function Check-NodeInstalled {
-    if (Test-Path "$(Get-Command node | Select-Object -ExpandProperty Source)") {
-        Write-Host "Node.js is already installed."
+    if (Test-Path (Join-Path $env:ProgramFiles "nodejs\node.exe")) {
+        Write-Output "Node.js is already installed."
         return $true
     } else {
         return $false
@@ -10,8 +10,8 @@ function Check-NodeInstalled {
 
 # Function to check if Yarn is already installed
 function Check-YarnInstalled {
-    if (Test-Path "$(Get-Command yarn | Select-Object -ExpandProperty Source)") {
-        Write-Host "Yarn is already installed."
+    if (Test-Path (Join-Path $env:AppData "npm\yarn.cmd")) {
+        Write-Output "Yarn is already installed."
         return $true
     } else {
         return $false
@@ -21,20 +21,21 @@ function Check-YarnInstalled {
 # Function to install Node.js
 function Install-Node {
     if (-not (Check-NodeInstalled)) {
-        Write-Host "Downloading and installing Node.js..."
-        Invoke-WebRequest -Uri https://deb.nodesource.com/setup_14.x -OutFile setup_nodejs.sh
-        ./setup_nodejs.sh
-        sudo apt-get install -y nodejs
-        Write-Host "Node.js installed successfully!"
+        Write-Output "Downloading and installing Node.js..."
+        $url = "https://nodejs.org/dist/latest-lts/node-$(curl -L -s -S https://nodejs.org/dist/latest-lts/ | Select-String -Pattern 'node-v(\d+\.\d+\.\d+-x64.msi)' | ForEach-Object { $_.Matches.Groups[0].Value })"
+        $tempFile = "$env:TEMP\node.msi"
+        Invoke-WebRequest -Uri $url -OutFile $tempFile
+        Start-Process msiexec.exe -ArgumentList "/i $tempFile /quiet /norestart" -Wait
+        Write-Output "Node.js installed successfully!"
     }
 }
 
 # Function to install Yarn
 function Install-Yarn {
     if (-not (Check-YarnInstalled)) {
-        Write-Host "Downloading and installing Yarn..."
+        Write-Output "Downloading and installing Yarn..."
         npm install -g yarn
-        Write-Host "Yarn installed successfully!"
+        Write-Output "Yarn installed successfully!"
     }
 }
 
@@ -42,4 +43,4 @@ function Install-Yarn {
 Install-Node
 Install-Yarn
 
-Write-Host "Installation process completed."
+Write-Output "Installation process completed."
